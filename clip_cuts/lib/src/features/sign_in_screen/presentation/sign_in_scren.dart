@@ -1,3 +1,4 @@
+import 'package:clip_cuts/src/features/home_screen/presentation/home_screen.dart';
 import 'package:clip_cuts/src/features/sign_up_screen/presentation/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -317,7 +318,14 @@ class _SignInScreenState extends State<SignInScreen> {
                         horizontal: MediaQuery.of(context).size.width * 0.05),
                     child: ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {}
+                        if (_formKey.currentState?.validate() ?? false) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
+                            ),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity,

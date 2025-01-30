@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Charlie",
+    "id": "0001",
+    "gender": "Male",
+    "mating_date": "12/12/23",
+    "breeding_partner": "Emmy",
+    "pregnancy": "Y"
+  },
+  {
+    "name": "Oliver",
+    "id": "0002",
+    "gender": "Male",
+    "mating_date": "15/12/23",
+    "breeding_partner": "Luna",
+    "pregnancy": "N"
+  },
+  {
+    "name": "Buddy",
+    "id": "0003",
+    "gender": "Male",
+    "mating_date": "20/12/23",
+    "breeding_partner": "Emmy",
+    "pregnancy": "Y"
+  },
+  {
+    "name": "Cooper",
+    "id": "0004",
+    "gender": "Male",
+    "mating_date": "25/12/23",
+    "breeding_partner": "Luna",
+    "pregnancy": "N"
+  },
+  {
+    "name": "Duke",
+    "id": "0005",
+    "gender": "Male",
+    "mating_date": "30/12/23",
+    "breeding_partner": "Emmy",
+    "pregnancy": "Y"
+  }
+]
