@@ -20,7 +20,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isMobileFocused = false;
   bool isPasswordObsecure = true;
   bool isConfirmPasswordObsecure = true;
-  String selectedGender = '';
+  String selectedGender = 'Male';
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _passwordController = TextEditingController();
 
   // Future<void> _pickImage() async {
   //   final XFile? pickedImage =
@@ -93,408 +95,491 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Focus(
-                  onFocusChange: (hasFocus) {
-                    setState(() {
-                      isNameFocused = hasFocus;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: isNameFocused
-                          ? const Color(0xff00B4BF).withOpacity(0.1)
-                          : const Color(0xfff9f9f9),
-                      borderRadius: BorderRadius.circular(
-                          MediaQuery.of(context).size.height * 0.02),
-                    ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Name",
-                        hintStyle: TextStyle(
-                          color: isNameFocused
-                              ? const Color(0xff00B4BF)
-                              : Colors.grey,
-                        ),
-                        suffixIcon: Icon(
-                          Icons.person,
-                          size: MediaQuery.of(context).size.height * 0.03,
-                          color: isNameFocused
-                              ? const Color(0xff00B4BF)
-                              : Colors.grey,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.02),
-                          borderSide: const BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.02),
-                          borderSide: BorderSide(
+                Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Focus(
+                          onFocusChange: (hasFocus) {
+                            setState(() {
+                              isNameFocused = hasFocus;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
                               color: isNameFocused
-                                  ? const Color(0xff00B4BF)
-                                  : Colors.grey),
+                                  ? const Color(0xff00B4BF).withOpacity(0.1)
+                                  : const Color(0xfff9f9f9),
+                              borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.height * 0.02),
+                            ),
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your name';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                hintText: "Name",
+                                hintStyle: TextStyle(
+                                  color: isNameFocused
+                                      ? const Color(0xff00B4BF)
+                                      : Colors.grey,
+                                ),
+                                suffixIcon: Icon(
+                                  Icons.person,
+                                  size:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                  color: isNameFocused
+                                      ? const Color(0xff00B4BF)
+                                      : Colors.grey,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.height *
+                                          0.02),
+                                  borderSide:
+                                      const BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.height *
+                                          0.02),
+                                  borderSide: BorderSide(
+                                      color: isNameFocused
+                                          ? const Color(0xff00B4BF)
+                                          : Colors.grey),
+                                ),
+                                filled: true,
+                                fillColor: Colors.transparent,
+                              ),
+                            ),
+                          ),
                         ),
-                        filled: true,
-                        fillColor: Colors.transparent,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Focus(
-                  onFocusChange: (hasFocus) {
-                    setState(() {
-                      isEmailFocused = hasFocus;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: isEmailFocused
-                          ? const Color(0xff00B4BF).withOpacity(0.1)
-                          : const Color(0xfff9f9f9),
-                      borderRadius: BorderRadius.circular(
-                          MediaQuery.of(context).size.height * 0.02),
-                    ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        // labelText: "Email",
-                        hintText: "Email",
-                        hintStyle: TextStyle(
-                          color: isEmailFocused
-                              ? const Color(0xff00B4BF)
-                              : Colors.grey,
-                        ),
-                        suffixIcon: Icon(
-                          Icons.email,
-                          size: MediaQuery.of(context).size.height * 0.03,
-                          color: isEmailFocused
-                              ? const Color(0xff00B4BF)
-                              : Colors.grey,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.02),
-                          borderSide: const BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.02),
-                          borderSide: BorderSide(
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
+                        Focus(
+                          onFocusChange: (hasFocus) {
+                            setState(() {
+                              isEmailFocused = hasFocus;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
                               color: isEmailFocused
-                                  ? const Color(0xff00B4BF)
-                                  : Colors.grey),
+                                  ? const Color(0xff00B4BF).withOpacity(0.1)
+                                  : const Color(0xfff9f9f9),
+                              borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.height * 0.02),
+                            ),
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your email';
+                                }
+                                if (!RegExp(
+                                        r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+                                    .hasMatch(value)) {
+                                  return 'Please enter a valid email address';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                hintText: "Email",
+                                hintStyle: TextStyle(
+                                  color: isEmailFocused
+                                      ? const Color(0xff00B4BF)
+                                      : Colors.grey,
+                                ),
+                                suffixIcon: Icon(
+                                  Icons.email,
+                                  size:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                  color: isEmailFocused
+                                      ? const Color(0xff00B4BF)
+                                      : Colors.grey,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.height *
+                                          0.02),
+                                  borderSide:
+                                      const BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.height *
+                                          0.02),
+                                  borderSide: BorderSide(
+                                      color: isEmailFocused
+                                          ? const Color(0xff00B4BF)
+                                          : Colors.grey),
+                                ),
+                                filled: true,
+                                fillColor: Colors.transparent,
+                              ),
+                            ),
+                          ),
                         ),
-                        filled: true,
-                        fillColor: Colors.transparent,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Focus(
-                  onFocusChange: (hasFocus) {
-                    setState(() {
-                      isMobileFocused = hasFocus;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: isMobileFocused
-                          ? const Color(0xff00B4BF).withOpacity(0.1)
-                          : const Color(0xfff9f9f9),
-                      borderRadius: BorderRadius.circular(
-                          MediaQuery.of(context).size.height * 0.02),
-                    ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Mobile Number",
-                        hintStyle: TextStyle(
-                          color: isMobileFocused
-                              ? const Color(0xff00B4BF)
-                              : Colors.grey,
-                        ),
-                        suffixIcon: Icon(
-                          Icons.call,
-                          size: MediaQuery.of(context).size.height * 0.03,
-                          color: isMobileFocused
-                              ? const Color(0xff00B4BF)
-                              : Colors.grey,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.02),
-                          borderSide: const BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.02),
-                          borderSide: BorderSide(
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
+                        Focus(
+                          onFocusChange: (hasFocus) {
+                            setState(() {
+                              isMobileFocused = hasFocus;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
                               color: isMobileFocused
-                                  ? const Color(0xff00B4BF)
-                                  : Colors.grey),
-                        ),
-                        filled: true,
-                        fillColor: Colors.transparent,
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      decoration: BoxDecoration(
-                        color: const Color(0xfff9f9f9),
-                        borderRadius: BorderRadius.circular(
-                          MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        border: Border.all(
-                          color: const Color(0xff100f0f),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            "Male",
-                            style: TextStyle(
-                              color: const Color(0xff100f0f),
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.02,
+                                  ? const Color(0xff00B4BF).withOpacity(0.1)
+                                  : const Color(0xfff9f9f9),
+                              borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.height * 0.02),
+                            ),
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your mobile number';
+                                }
+                                if (value.length != 10) {
+                                  return 'Please enter a valid 10-digit mobile number';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                hintText: "Mobile Number",
+                                hintStyle: TextStyle(
+                                  color: isMobileFocused
+                                      ? const Color(0xff00B4BF)
+                                      : Colors.grey,
+                                ),
+                                suffixIcon: Icon(
+                                  Icons.call,
+                                  size:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                  color: isMobileFocused
+                                      ? const Color(0xff00B4BF)
+                                      : Colors.grey,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.height *
+                                          0.02),
+                                  borderSide:
+                                      const BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.height *
+                                          0.02),
+                                  borderSide: BorderSide(
+                                      color: isMobileFocused
+                                          ? const Color(0xff00B4BF)
+                                          : Colors.grey),
+                                ),
+                                filled: true,
+                                fillColor: Colors.transparent,
+                              ),
+                              keyboardType: TextInputType.number,
                             ),
                           ),
-                          Radio(
-                            value: "Male",
-                            groupValue: selectedGender,
-                            activeColor: const Color(0xff00B4BF),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedGender = value.toString();
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      decoration: BoxDecoration(
-                        color: const Color(0xfff9f9f9),
-                        borderRadius: BorderRadius.circular(
-                          MediaQuery.of(context).size.height * 0.02,
                         ),
-                        border: Border.all(
-                          color: const Color(0xff100f0f),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            "Female",
-                            style: TextStyle(
-                              color: const Color(0xff100f0f),
-                              fontSize:
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.07,
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              decoration: BoxDecoration(
+                                color: const Color(0xfff9f9f9),
+                                borderRadius: BorderRadius.circular(
                                   MediaQuery.of(context).size.height * 0.02,
+                                ),
+                                border: Border.all(
+                                  color: const Color(0xff100f0f),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    "Male",
+                                    style: TextStyle(
+                                      color: const Color(0xff100f0f),
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.02,
+                                    ),
+                                  ),
+                                  Radio(
+                                    value: "Male",
+                                    groupValue: selectedGender,
+                                    activeColor: const Color(0xff00B4BF),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedGender = value.toString();
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.07,
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              decoration: BoxDecoration(
+                                color: const Color(0xfff9f9f9),
+                                borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.height * 0.02,
+                                ),
+                                border: Border.all(
+                                  color: const Color(0xff100f0f),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    "Female",
+                                    style: TextStyle(
+                                      color: const Color(0xff100f0f),
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.02,
+                                    ),
+                                  ),
+                                  Radio(
+                                    value: "Female",
+                                    groupValue: selectedGender,
+                                    activeColor: const Color(0xff00B4BF),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedGender = value.toString();
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
+                        Focus(
+                          onFocusChange: (hasFocus) {
+                            setState(() {
+                              isPasswordFocused = hasFocus;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: isPasswordFocused
+                                  ? const Color(0xff00B4BF).withOpacity(0.1)
+                                  : const Color(0xfff9f9f9),
+                              borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.height * 0.02),
+                            ),
+                            child: TextFormField(
+                              obscureText: isPasswordObsecure,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter a password';
+                                }
+                                if (value.length < 6) {
+                                  return 'Password must be at least 6 characters';
+                                }
+                                return null;
+                              },
+                              controller: _passwordController,
+                              decoration: InputDecoration(
+                                hintText: "Password",
+                                hintStyle: TextStyle(
+                                  color: isPasswordFocused
+                                      ? const Color(0xff00B4BF)
+                                      : Colors.grey,
+                                ),
+                                suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isPasswordObsecure =
+                                          !isPasswordObsecure; // Toggle the state
+                                    });
+                                  },
+                                  child: Icon(
+                                    isPasswordObsecure
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    size: MediaQuery.of(context).size.height *
+                                        0.03,
+                                    color: isPasswordFocused
+                                        ? const Color(0xff00B4BF)
+                                        : Colors.grey,
+                                  ),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.height *
+                                          0.02),
+                                  borderSide: BorderSide(
+                                      color: isPasswordFocused
+                                          ? const Color(0xff00B4BF)
+                                          : Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.height *
+                                          0.02),
+                                  borderSide: BorderSide(
+                                      color: isPasswordFocused
+                                          ? const Color(0xff00B4BF)
+                                          : Colors.grey),
+                                ),
+                              ),
                             ),
                           ),
-                          Radio(
-                            value: "Female",
-                            groupValue: selectedGender,
-                            activeColor: const Color(0xff00B4BF),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedGender = value.toString();
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Focus(
-                  onFocusChange: (hasFocus) {
-                    setState(() {
-                      isPasswordFocused = hasFocus;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: isPasswordFocused
-                          ? const Color(0xff00B4BF).withOpacity(0.1)
-                          : const Color(0xfff9f9f9),
-                      borderRadius: BorderRadius.circular(
-                          MediaQuery.of(context).size.height * 0.02),
-                    ),
-                    child: TextField(
-                      obscureText: isPasswordObsecure,
-                      decoration: InputDecoration(
-                        hintText: "Password",
-                        hintStyle: TextStyle(
-                          color: isPasswordFocused
-                              ? const Color(0xff00B4BF)
-                              : Colors.grey,
                         ),
-                        suffixIcon: GestureDetector(
-                          onTap: () {
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
+                        Focus(
+                          onFocusChange: (hasFocus) {
                             setState(() {
-                              isPasswordObsecure =
-                                  !isPasswordObsecure; // Toggle the state
+                              isConfirmPasswordFocused = hasFocus;
                             });
                           },
-                          child: Icon(
-                            isPasswordObsecure
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            size: MediaQuery.of(context).size.height * 0.03,
-                            color: isPasswordFocused
-                                ? const Color(0xff00B4BF)
-                                : Colors.grey,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: isConfirmPasswordFocused
+                                  ? const Color(0xff00B4BF).withOpacity(0.1)
+                                  : const Color(0xfff9f9f9),
+                              borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.height * 0.02),
+                            ),
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please confirm your password';
+                                }
+                                if (value != _passwordController.text) {
+                                  return 'Passwords do not match';
+                                }
+                                return null;
+                              },
+                              obscureText: isConfirmPasswordObsecure,
+                              decoration: InputDecoration(
+                                hintText: "Confirm password",
+                                hintStyle: TextStyle(
+                                  color: isConfirmPasswordFocused
+                                      ? const Color(0xff00B4BF)
+                                      : Colors.grey,
+                                ),
+                                suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isConfirmPasswordObsecure =
+                                          !isConfirmPasswordObsecure; // Toggle the state
+                                    });
+                                  },
+                                  child: Icon(
+                                    isConfirmPasswordObsecure
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    size: MediaQuery.of(context).size.height *
+                                        0.03,
+                                    color: isConfirmPasswordFocused
+                                        ? const Color(0xff00B4BF)
+                                        : Colors.grey,
+                                  ),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.height *
+                                          0.02),
+                                  borderSide: BorderSide(
+                                      color: isConfirmPasswordFocused
+                                          ? const Color(0xff00B4BF)
+                                          : Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.height *
+                                          0.02),
+                                  borderSide: BorderSide(
+                                      color: isConfirmPasswordFocused
+                                          ? const Color(0xff00B4BF)
+                                          : Colors.grey),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.02),
-                          borderSide: BorderSide(
-                              color: isPasswordFocused
-                                  ? const Color(0xff00B4BF)
-                                  : Colors.grey),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                              value: _isTermsAccepted,
+                              activeColor: Colors.amberAccent,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isTermsAccepted = value!;
+                                });
+                              },
+                            ),
+                            Expanded(
+                              child: Text(
+                                "By Signing up, you agree to our Terms & Privacy Policy.",
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.015),
+                              ),
+                            ),
+                          ],
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.02),
-                          borderSide: BorderSide(
-                              color: isPasswordFocused
-                                  ? const Color(0xff00B4BF)
-                                  : Colors.grey),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Focus(
-                  onFocusChange: (hasFocus) {
-                    setState(() {
-                      isConfirmPasswordFocused = hasFocus;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: isConfirmPasswordFocused
-                          ? const Color(0xff00B4BF).withOpacity(0.1)
-                          : const Color(0xfff9f9f9),
-                      borderRadius: BorderRadius.circular(
-                          MediaQuery.of(context).size.height * 0.02),
-                    ),
-                    child: TextField(
-                      obscureText: isConfirmPasswordObsecure,
-                      decoration: InputDecoration(
-                        hintText: "Confirm password",
-                        hintStyle: TextStyle(
-                          color: isConfirmPasswordFocused
-                              ? const Color(0xff00B4BF)
-                              : Colors.grey,
-                        ),
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isConfirmPasswordObsecure =
-                                  !isConfirmPasswordObsecure; // Toggle the state
-                            });
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SignInScreen(),
+                                ),
+                              );
+                            }
                           },
-                          child: Icon(
-                            isConfirmPasswordObsecure
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            size: MediaQuery.of(context).size.height * 0.03,
-                            color: isConfirmPasswordFocused
-                                ? const Color(0xff00B4BF)
-                                : Colors.grey,
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity,
+                                MediaQuery.of(context).size.height * 0.07),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                MediaQuery.of(context).size.height * 0.025,
+                              ),
+                            ),
+                            backgroundColor: const Color(0xff004961),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "SIGN UP",
+                              style: TextStyle(
+                                color: const Color(0xffffffff),
+                                fontSize:
+                                    MediaQuery.of(context).size.height * 0.02,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.02),
-                          borderSide: BorderSide(
-                              color: isConfirmPasswordFocused
-                                  ? const Color(0xff00B4BF)
-                                  : Colors.grey),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.02),
-                          borderSide: BorderSide(
-                              color: isConfirmPasswordFocused
-                                  ? const Color(0xff00B4BF)
-                                  : Colors.grey),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Checkbox(
-                      value: _isTermsAccepted,
-                      activeColor: Colors.amberAccent,
-                      onChanged: (value) {
-                        setState(() {
-                          _isTermsAccepted = value!;
-                        });
-                      },
-                    ),
-                    Expanded(
-                      child: Text(
-                        "By Signing up, you agree to our Terms & Privacy Policy.",
-                        style: TextStyle(
-                            fontSize:
-                                MediaQuery.of(context).size.height * 0.015),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignInScreen(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity,
-                        MediaQuery.of(context).size.height * 0.07),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.height * 0.025,
-                      ),
-                    ),
-                    backgroundColor: const Color(0xff004961),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "SIGN UP",
-                      style: TextStyle(
-                        color: const Color(0xffffffff),
-                        fontSize: MediaQuery.of(context).size.height * 0.02,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
+                      ],
+                    )),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

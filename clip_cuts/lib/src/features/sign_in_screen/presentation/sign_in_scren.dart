@@ -13,6 +13,9 @@ class _SignInScreenState extends State<SignInScreen> {
   bool isEmailFocused = false;
   bool isPasswordFocused = false;
   bool isObscure = true;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,6 @@ class _SignInScreenState extends State<SignInScreen> {
               width: MediaQuery.of(context).size.width,
               child: Stack(
                 children: [
-                  // Top section with rounded image and overlay
                   Stack(
                     children: [
                       ClipRRect(
@@ -120,225 +122,259 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            // Email input field
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05),
-              child: Focus(
-                onFocusChange: (hasFocus) {
-                  setState(() {
-                    isEmailFocused = hasFocus;
-                  });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: isEmailFocused
-                        ? const Color(0xff00B4BF).withOpacity(0.1)
-                        : const Color(0xfff9f9f9),
-                    borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.height * 0.02),
-                  ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      // labelText: "Email",
-                      hintText: "Email",
-                      hintStyle: TextStyle(
-                        color: isEmailFocused
-                            ? const Color(0xff00B4BF)
-                            : Colors.grey,
-                      ),
-                      suffixIcon: Icon(
-                        Icons.email,
-                        size: MediaQuery.of(context).size.height * 0.03,
-                        color: isEmailFocused
-                            ? const Color(0xff00B4BF)
-                            : Colors.grey,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            MediaQuery.of(context).size.height * 0.02),
-                        borderSide: const BorderSide(color: Colors.grey),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            MediaQuery.of(context).size.height * 0.02),
-                        borderSide: BorderSide(
-                            color: isEmailFocused
-                                ? const Color(0xff00B4BF)
-                                : Colors.grey),
-                      ),
-                      filled: true,
-                      fillColor: Colors.transparent,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            // Password input field
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05),
-              child: Focus(
-                onFocusChange: (hasFocus) {
-                  setState(() {
-                    isPasswordFocused = hasFocus;
-                  });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: isPasswordFocused
-                        ? const Color(0xff00B4BF).withOpacity(0.1)
-                        : const Color(0xfff9f9f9),
-                    borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.height * 0.02),
-                  ),
-                  child: TextField(
-                    obscureText: isObscure,
-                    decoration: InputDecoration(
-                      hintText: "Password",
-                      hintStyle: TextStyle(
-                        color: isPasswordFocused
-                            ? const Color(0xff00B4BF)
-                            : Colors.grey,
-                      ),
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isObscure = !isObscure; // Toggle the state
-                          });
-                        },
-                        child: Icon(
-                          isObscure ? Icons.visibility_off : Icons.visibility,
-                          size: MediaQuery.of(context).size.height * 0.03,
-                          color: isPasswordFocused
-                              ? const Color(0xff00B4BF)
-                              : Colors.grey,
+            // Form with validation
+            Form(
+              key: _formKey, // Assign the global key to the form
+              child: Column(
+                children: [
+                  // Email input field
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.05),
+                    child: Focus(
+                      onFocusChange: (hasFocus) {
+                        setState(() {
+                          isEmailFocused = hasFocus;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: isEmailFocused
+                              ? const Color(0xff00B4BF).withOpacity(0.1)
+                              : const Color(0xfff9f9f9),
+                          borderRadius: BorderRadius.circular(
+                              MediaQuery.of(context).size.height * 0.02),
+                        ),
+                        child: TextFormField(
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            hintText: "Email",
+                            hintStyle: TextStyle(
+                              color: isEmailFocused
+                                  ? const Color(0xff00B4BF)
+                                  : Colors.grey,
+                            ),
+                            suffixIcon: Icon(
+                              Icons.email,
+                              size: MediaQuery.of(context).size.height * 0.03,
+                              color: isEmailFocused
+                                  ? const Color(0xff00B4BF)
+                                  : Colors.grey,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.height * 0.02),
+                              borderSide: const BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.height * 0.02),
+                              borderSide: BorderSide(
+                                  color: isEmailFocused
+                                      ? const Color(0xff00B4BF)
+                                      : Colors.grey),
+                            ),
+                            filled: true,
+                            fillColor: Colors.transparent,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            final emailRegex = RegExp(
+                                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                            if (!emailRegex.hasMatch(value)) {
+                              return 'Please enter a valid email address';
+                            }
+                            return null;
+                          },
                         ),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            MediaQuery.of(context).size.height * 0.02),
-                        borderSide: BorderSide(
-                            color: isPasswordFocused
-                                ? const Color(0xff00B4BF)
-                                : Colors.grey),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                            MediaQuery.of(context).size.height * 0.02),
-                        borderSide: BorderSide(
-                            color: isPasswordFocused
-                                ? const Color(0xff00B4BF)
-                                : Colors.grey),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  // Password input field
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.05),
+                    child: Focus(
+                      onFocusChange: (hasFocus) {
+                        setState(() {
+                          isPasswordFocused = hasFocus;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: isPasswordFocused
+                              ? const Color(0xff00B4BF).withOpacity(0.1)
+                              : const Color(0xfff9f9f9),
+                          borderRadius: BorderRadius.circular(
+                              MediaQuery.of(context).size.height * 0.02),
+                        ),
+                        child: TextFormField(
+                          obscureText: isObscure,
+                          controller: _passwordController,
+                          validator: (password) {
+                            if (password == null || password.isEmpty) {
+                              return 'Password is required';
+                            }
+                            if (password.length < 6) {
+                              return 'Password must be at least 6 characters';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            hintText: "Password",
+                            hintStyle: TextStyle(
+                              color: isPasswordFocused
+                                  ? const Color(0xff00B4BF)
+                                  : Colors.grey,
+                            ),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isObscure = !isObscure;
+                                });
+                              },
+                              child: Icon(
+                                isObscure
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                size: MediaQuery.of(context).size.height * 0.03,
+                                color: isPasswordFocused
+                                    ? const Color(0xff00B4BF)
+                                    : Colors.grey,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.height * 0.02),
+                              borderSide: BorderSide(
+                                  color: isPasswordFocused
+                                      ? const Color(0xff00B4BF)
+                                      : Colors.grey),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  MediaQuery.of(context).size.height * 0.02),
+                              borderSide: BorderSide(
+                                  color: isPasswordFocused
+                                      ? const Color(0xff00B4BF)
+                                      : Colors.grey),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            // Remember me and Forgot password row
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: rememberMe,
-                        activeColor: Colors.amberAccent,
-                        onChanged: (value) {
-                          setState(() {
-                            rememberMe = value!;
-                          });
-                        },
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.05),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: rememberMe,
+                              activeColor: Colors.amberAccent,
+                              onChanged: (value) {
+                                setState(() {
+                                  rememberMe = value!;
+                                });
+                              },
+                            ),
+                            Text(
+                              "Remember me",
+                              style: TextStyle(
+                                color: const Color(0xff100f0f),
+                                fontSize:
+                                    MediaQuery.of(context).size.height * 0.02,
+                              ),
+                            ),
+                          ],
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Forgot password?",
+                            style: TextStyle(
+                              color: const Color(0xff8b8b8b),
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.05),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState?.validate() ?? false) {}
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity,
+                            MediaQuery.of(context).size.height * 0.07),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            MediaQuery.of(context).size.height * 0.025,
+                          ),
+                        ),
+                        backgroundColor: const Color(0xff004961),
                       ),
+                      child: Center(
+                        child: Text(
+                          "SIGN IN",
+                          style: TextStyle(
+                            color: const Color(0xffffffff),
+                            fontSize: MediaQuery.of(context).size.height * 0.02,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                       Text(
-                        "Remember me",
+                        "Don't have an account?",
                         style: TextStyle(
-                          color: const Color(0xff100f0f),
-                          fontSize: MediaQuery.of(context).size.height * 0.02,
+                          fontSize: MediaQuery.of(context).size.height * 0.015,
+                          color: const Color(0xff8b8b8b),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SignUpScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Sign Up",
+                          style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.015,
+                            color: const Color(0xff100f0f),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Forgot password?",
-                      style: TextStyle(
-                        color: const Color(0xff8b8b8b),
-                        fontSize: MediaQuery.of(context).size.height * 0.015,
-                      ),
-                    ),
-                  ),
                 ],
               ),
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            // Sign in button
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity,
-                      MediaQuery.of(context).size.height * 0.07),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      MediaQuery.of(context).size.height * 0.025,
-                    ),
-                  ),
-                  backgroundColor: const Color(0xff004961),
-                ),
-                child: Center(
-                  child: Text(
-                    "SIGN IN",
-                    style: TextStyle(
-                      color: const Color(0xffffffff),
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            // Sign up text
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Don't have an account?",
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.015,
-                    color: const Color(0xff8b8b8b),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignUpScreen(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    "Sign up",
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.height * 0.015,
-                      color: const Color(0xff100f0f),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),
