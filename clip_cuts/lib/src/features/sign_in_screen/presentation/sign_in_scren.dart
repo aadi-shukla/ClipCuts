@@ -1,3 +1,4 @@
+import 'package:clip_cuts/src/features/sign_up_screen/presentation/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -133,7 +134,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   decoration: BoxDecoration(
                     color: isEmailFocused
                         ? const Color(0xff00B4BF).withOpacity(0.1)
-                        : const Color(0xffffffff),
+                        : const Color(0xfff9f9f9),
                     borderRadius: BorderRadius.circular(
                         MediaQuery.of(context).size.height * 0.02),
                   ),
@@ -188,7 +189,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   decoration: BoxDecoration(
                     color: isPasswordFocused
                         ? const Color(0xff00B4BF).withOpacity(0.1)
-                        : const Color(0xffffffff),
+                        : const Color(0xfff9f9f9),
                     borderRadius: BorderRadius.circular(
                         MediaQuery.of(context).size.height * 0.02),
                   ),
@@ -320,7 +321,14 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignUpScreen(),
+                      ),
+                    );
+                  },
                   child: Text(
                     "Sign up",
                     style: TextStyle(
