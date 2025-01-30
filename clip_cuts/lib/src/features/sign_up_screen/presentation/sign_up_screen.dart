@@ -1,4 +1,5 @@
 import 'package:clip_cuts/src/features/sign_in_screen/presentation/sign_in_scren.dart';
+import 'package:clip_cuts/src/utils/toast_message.dart';
 import 'package:flutter/material.dart';
 // import 'package:image_picker/image_picker.dart';
 
@@ -548,6 +549,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
+                              ToastMessage.showToast("Sign up successful");
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

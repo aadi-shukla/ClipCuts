@@ -28,6 +28,13 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSCameraUsageDescription</key>
+    <string>ClipCuts need camera access to take pictures for profile picture.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>ClipCuts need access to your photo library to pick images for profile picture.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need access to save images to your library.</string>
+
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:clip_cuts/src/features/sign_in_screen/presentation/sign_in_scren.dart';
+import 'package:clip_cuts/src/utils/toast_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -76,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
+                      ToastMessage.showToast("Logged out successfully");
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -136,302 +138,312 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xfff9f9f9),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.15,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: const Color(0xff00B4BF),
-                borderRadius: BorderRadius.only(
-                  bottomLeft:
-                      Radius.circular(MediaQuery.of(context).size.width * 0.15),
-                  bottomRight:
-                      Radius.circular(MediaQuery.of(context).size.width * 0.15),
-                ),
-              ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.025),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ClipOval(
-                          child: Image.asset(
-                            'assets/images/img_profile.png',
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.width * 0.175,
-                            height: MediaQuery.of(context).size.width * 0.175,
-                          ),
-                        ),
-                        Text(
-                          "ClipCuts",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: MediaQuery.of(context).size.width * 0.075,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Pattaya',
-                          ),
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.logout_outlined,
-                            color: Colors.white,
-                            size: MediaQuery.of(context).size.width * 0.075,
-                          ),
-                          onPressed: () {
-                            _showLogoutModal(context);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05),
-              child: Container(
+    return WillPopScope(
+      onWillPop: () {
+        SystemNavigator.pop();
+        return Future.value(false);
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xfff9f9f9),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.15,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: const Color(0xffffffff),
-                  borderRadius: BorderRadius.circular(
-                    MediaQuery.of(context).size.height * 0.025,
-                  ),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x29000000),
-                      offset: Offset(0, 3),
-                      blurRadius: 6,
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  controller: searchController,
-                  onChanged: filterSearchResults,
-                  decoration: InputDecoration(
-                    hintText: "Search by Name or Pet ID",
-                    hintStyle: TextStyle(
-                      color: const Color(0xffbfbfbf),
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    suffixIcon: Icon(
-                      Icons.search_rounded,
-                      color: const Color(0xffbfbfbf),
-                      size: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.height * 0.025,
-                      ),
-                      borderSide: BorderSide.none,
-                    ),
+                  color: const Color(0xff00B4BF),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(
+                        MediaQuery.of(context).size.width * 0.15),
+                    bottomRight: Radius.circular(
+                        MediaQuery.of(context).size.width * 0.15),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: filteredPets.length,
-                itemBuilder: (context, index) {
-                  var pet = filteredPets[index];
-
-                  return Container(
-                    margin: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.height * 0.02),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffffffff),
-                      borderRadius: BorderRadius.circular(
-                          MediaQuery.of(context).size.height * 0.025),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x29000000),
-                          offset: Offset(0, 3),
-                          blurRadius: 6,
-                        ),
-                      ],
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
                     ),
-                    child: Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.05,
-                        vertical: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      child: Column(
+                          horizontal:
+                              MediaQuery.of(context).size.width * 0.025),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                "assets/images/img_pet.png",
-                                width: MediaQuery.of(context).size.width * 0.1,
-                                height: MediaQuery.of(context).size.width * 0.1,
-                              ),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      0.025),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    pet['name'],
-                                    style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.017,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xff545454),
-                                    ),
-                                  ),
-                                  Text(
-                                    "ID: ${pet['id']}",
-                                    style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.015,
-                                      color: const Color(0xff888888),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      0.025),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xffDEE5FF),
-                                  borderRadius: BorderRadius.circular(
-                                      MediaQuery.of(context).size.height *
-                                          0.025),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical:
-                                        MediaQuery.of(context).size.width *
-                                            0.01,
-                                    horizontal:
-                                        MediaQuery.of(context).size.width *
-                                            0.02,
-                                  ),
-                                  child: Text(
-                                    pet['gender'],
-                                    style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.015,
-                                      color: const Color(0xff6B8CFF),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                          ClipOval(
+                            child: Image.asset(
+                              'assets/images/img_profile.png',
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width * 0.175,
+                              height: MediaQuery.of(context).size.width * 0.175,
+                            ),
                           ),
-                          const Divider(color: Color(0xffe0e0e0)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Mating Date",
-                                    style: TextStyle(
-                                      color: const Color(0xff999999),
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.015,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    pet['mating_date'],
-                                    style: TextStyle(
-                                      color: const Color(0xff545454),
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.015,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Breeding Partner",
-                                    style: TextStyle(
-                                      color: const Color(0xff999999),
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.015,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    pet['breeding_partner'],
-                                    style: TextStyle(
-                                      color: const Color(0xff545454),
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.015,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Pregnancy",
-                                    style: TextStyle(
-                                      color: const Color(0xff999999),
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.015,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    pet['pregnancy'],
-                                    style: TextStyle(
-                                      color: const Color(0xff545454),
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              0.015,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          Text(
+                            "ClipCuts",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.075,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Pattaya',
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.logout_outlined,
+                              color: Colors.white,
+                              size: MediaQuery.of(context).size.width * 0.075,
+                            ),
+                            onPressed: () {
+                              _showLogoutModal(context);
+                            },
                           ),
                         ],
                       ),
                     ),
-                  );
-                },
+                  ],
+                ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.05),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xffffffff),
+                    borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.height * 0.025,
+                    ),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0x29000000),
+                        offset: Offset(0, 3),
+                        blurRadius: 6,
+                      ),
+                    ],
+                  ),
+                  child: TextField(
+                    controller: searchController,
+                    onChanged: filterSearchResults,
+                    decoration: InputDecoration(
+                      hintText: "Search by Name or Pet ID",
+                      hintStyle: TextStyle(
+                        color: const Color(0xffbfbfbf),
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      suffixIcon: Icon(
+                        Icons.search_rounded,
+                        color: const Color(0xffbfbfbf),
+                        size: MediaQuery.of(context).size.height * 0.03,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          MediaQuery.of(context).size.height * 0.025,
+                        ),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.05),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: filteredPets.length,
+                  itemBuilder: (context, index) {
+                    var pet = filteredPets[index];
+
+                    return Container(
+                      margin: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.02),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      decoration: BoxDecoration(
+                        color: const Color(0xffffffff),
+                        borderRadius: BorderRadius.circular(
+                            MediaQuery.of(context).size.height * 0.025),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x29000000),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.05,
+                          vertical: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  "assets/images/img_pet.png",
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.025),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      pet['name'],
+                                      style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.017,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xff545454),
+                                      ),
+                                    ),
+                                    Text(
+                                      "ID: ${pet['id']}",
+                                      style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.015,
+                                        color: const Color(0xff888888),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.025),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffDEE5FF),
+                                    borderRadius: BorderRadius.circular(
+                                        MediaQuery.of(context).size.height *
+                                            0.025),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical:
+                                          MediaQuery.of(context).size.width *
+                                              0.01,
+                                      horizontal:
+                                          MediaQuery.of(context).size.width *
+                                              0.02,
+                                    ),
+                                    child: Text(
+                                      pet['gender'],
+                                      style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.015,
+                                        color: const Color(0xff6B8CFF),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider(color: Color(0xffe0e0e0)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Mating Date",
+                                      style: TextStyle(
+                                        color: const Color(0xff999999),
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.015,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      pet['mating_date'],
+                                      style: TextStyle(
+                                        color: const Color(0xff545454),
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.015,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Breeding Partner",
+                                      style: TextStyle(
+                                        color: const Color(0xff999999),
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.015,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      pet['breeding_partner'],
+                                      style: TextStyle(
+                                        color: const Color(0xff545454),
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.015,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Pregnancy",
+                                      style: TextStyle(
+                                        color: const Color(0xff999999),
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.015,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      pet['pregnancy'],
+                                      style: TextStyle(
+                                        color: const Color(0xff545454),
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.015,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
