@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Follow these steps to set up the project and start using or developing ReCycleBot on your local machine.
+Follow these steps to set up the project and start using or developing ClipCuts on your local machine.
 
 ### Prerequisites
 
